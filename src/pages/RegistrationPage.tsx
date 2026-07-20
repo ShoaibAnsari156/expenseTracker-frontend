@@ -42,7 +42,7 @@ const RegistrationPage = () => {
       if(data.success){
         nagivate("/dashboard");
       }
-      console.log("Success:", data);
+      // console.log("Success:", data);
 
     } catch (error: any) {
       console.error("Registration Error:", error);

@@ -39,7 +39,7 @@ const LoginPage = () => {
       if (response.success) {
         dispatch(setUserId(response.user.userId))
         sessionStorage.setItem("userId", response.user.userId)
-        console.log("Login successful:", response);
+        // console.log("Login successful:", response);
         navigate("/dashboard");
       }
 

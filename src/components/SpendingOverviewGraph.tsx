@@ -4,28 +4,27 @@ import { Doughnut } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { getDoughnutData } from "@/services/getRecordsService";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setDoughnutData } from "@/features/userDataSlice";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const SpendingOverviewGraph = () => {
     const [selectedMonth, setSelectedMonth] = React.useState<string>(new Date().toISOString().slice(0, 7));
-    const [doughnutdata, setDoughnutData] = React.useState({ categories: {} })
-    // const doughnutData = useSelector((state: any) => state.user.transactions)
+    // const [doughnutdata, setDoughnutData] = React.useState({ categories: {} })
+    const doughnutData = useSelector((state: any) => state.user.doughnutData)
     // console.log("doughnutData", doughnutData);
     const userId: any = sessionStorage.getItem("userId")
-    console.log("userId", userId);
-
+    // console.log("userId", userId);
+    const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
             try {
                 const response = await getDoughnutData({ userId, date: selectedMonth })
                 if (response.success) {
-                    setDoughnutData((prev: any) => ({
-                        ...prev,
-                        categories: response.data.categories
-                    }))
+                    dispatch(setDoughnutData(response.data?.categories || {}))
                 }
-                console.log("doughnut Data", response);
+                // console.log("doughnut Data", response);
 
             } catch (error: any) {
                 console.log("Error in getting Doughnut data", error);
@@ -33,6 +32,9 @@ const SpendingOverviewGraph = () => {
             }
         })()
     }, [selectedMonth])
+    // console.log("keys of categories", Object.values(doughnutData));
+    // console.log("doughnutData in graph ", doughnutData);
+
     const chartData = {
         // labels: ['Food & Dining', "Housing", "Entertainment", "Utilities", 'Transport', 'Shopping'],
         // labels: doughnutData.map((data:any)=>(data.category)),
@@ -40,12 +42,12 @@ const SpendingOverviewGraph = () => {
         //     // Keeps the item only if its index matches the FIRST time it appears
         //     self.findIndex((t: any) => t.category === item.category) === index
         // ).map((data: any) => data.category),
-        labels: Object.entries(doughnutdata.categories),
+        labels: Object.keys(doughnutData) || [],
         datasets: [
             {
-                data: Object.values(doughnutdata.categories),
+                data: Object.values(doughnutData),
                 backgroundColor: ['#FF6384', '#36A2EB', "#EAB308", "#3B82F6", "#22C55E", "#F97316"],
-                borderWidth: 1
+                borderWidth: 0
             }
         ]
     };
@@ -85,6 +87,7 @@ const SpendingOverviewGraph = () => {
             <div className="flex justify-between items-center mb-4">
                 <h2 className="font-semibold text-gray-800">Spending Overview</h2>
                 <input
+                    id="monthSelector"
                     type="month"
                     className="border rounded px-2 py-1 text-sm outline-none"
                     value={selectedMonth}

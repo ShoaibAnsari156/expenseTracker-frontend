@@ -7,7 +7,7 @@ const ProfilePopover = () => {
     const popoverRef = useRef<HTMLDivElement>(null);
     const [userData, setUserData] = useState<any>({});
     const dispatch = useDispatch()
-
+    const userId = sessionStorage.getItem("userId")
     // Close on outside click
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -23,7 +23,7 @@ const ProfilePopover = () => {
     useEffect(() => {
         const getUserData = async () => {
             try {
-                const response = await getUserProfile();
+                const response = await getUserProfile(userId);
                 setUserData(response.user);
                 dispatch(setUserId(response.user.userId))
             }

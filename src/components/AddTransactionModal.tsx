@@ -13,7 +13,7 @@ import {
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { TrasactionListType } from './RecentTransactions'
+
 import {
     Select,
     SelectContent,
@@ -24,13 +24,14 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { addTransaction } from '@/services/transactionsService'
-import { useDispatch, useSelector } from 'react-redux'
-import { setTransactions } from '@/features/userDataSlice'
+import { useDispatch } from 'react-redux'
+import { setDoughnutData, setToggleRefresh } from '@/features/userDataSlice'
 import { toast } from 'sonner'
+import type { TrasactionListType } from '@/types'
 
 
 const AddTransactionModal = () => {
-    const userId = useSelector((state: any) => state.user.userId)
+    const userId = sessionStorage.getItem("userId")
     const dispatch = useDispatch()
     // console.log("userID", userId);
 
@@ -55,13 +56,29 @@ const AddTransactionModal = () => {
         for (const value of Object.values(transactionData)) {
             if (!value) return alert("Fill All The Fields");
         }
-        const response = await addTransaction(transactionData, userId);
+
+        const response = await addTransaction({
+            title: transactionData.title,
+            category: transactionData.category,
+            date: transactionData.date,
+            amount: Number(transactionData.amount)
+        }, userId);
         if (response.success) {
             setOpen(false)
             toast.success(`${response.message}`)
-            dispatch(setTransactions(response.data.transactions))
+            // dispatch(setTransactions(response.data.transaction.transactions))
+            dispatch(setToggleRefresh((prev: any) => !prev))
+            dispatch(setDoughnutData(response.data.monthlyTransactionsOverview.categories))
+
+            //reset state
+            setTransactionData({
+                title: "",
+                category: "",
+                date: "",
+                amount: 0
+            })
         }
-        // console.log("lkjhgfdsqwertyuiop", response);
+        // console.log("new transaction added", response);
     }
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -82,7 +99,7 @@ const AddTransactionModal = () => {
                     <FieldGroup>
                         <Field>
                             <Label htmlFor="title">Title</Label>
-                            <Input id="title" name="title" defaultValue="" value={transactionData.title} onChange={handleChange} />
+                            <Input id="title" name="title" value={transactionData.title} onChange={handleChange} />
                         </Field>
                         <Field>
                             <Label htmlFor="category">Category</Label>
@@ -106,11 +123,11 @@ const AddTransactionModal = () => {
                         </Field>
                         <Field>
                             <Label htmlFor="date">Date</Label>
-                            <Input id="date" name="date" defaultValue="" value={transactionData.date} onChange={handleChange} type='date' />
+                            <Input id="date" name="date" value={transactionData.date} onChange={handleChange} type='date' />
                         </Field>
                         <Field>
                             <Label htmlFor="amount">Amount</Label>
-                            <Input id="amount" name="amount" defaultValue="" value={transactionData.amount} onChange={handleChange} />
+                            <Input id="amount" name="amount" value={transactionData.amount} onChange={handleChange} />
                         </Field>
                     </FieldGroup>
                     <DialogFooter>

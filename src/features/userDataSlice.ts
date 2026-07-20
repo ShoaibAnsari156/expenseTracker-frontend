@@ -4,7 +4,9 @@ const userDataSlice = createSlice({
     name: 'user',
     initialState: {
         userId: null,
-        transactions: []
+        transactions: [],
+        doughnutData: {},
+        toggleRefresh: false
     },
     reducers: {
         setUserId: (state, action) => {
@@ -12,9 +14,15 @@ const userDataSlice = createSlice({
         },
         setTransactions: (state, action) => {
             state.transactions = action.payload
+        },
+        setDoughnutData: (state, action) => {
+            state.doughnutData = action.payload
+        },
+        setToggleRefresh: (state, action) => {
+            state.toggleRefresh = action.payload
         }
     }
 })
 
-export const { setUserId, setTransactions } = userDataSlice.actions
+export const { setUserId, setTransactions, setDoughnutData, setToggleRefresh } = userDataSlice.actions
 export default userDataSlice.reducer

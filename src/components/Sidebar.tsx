@@ -8,10 +8,10 @@ export default function Sidebar() {
     const navigate = useNavigate();
     const navItems = [
         { name: "Home", path: "/dashboard", icon: <House /> },
-        { name: "Transactions", path: "/transactions", icon: <ArrowLeftRight /> },
-        { name: "Categories", path: "/categories", icon: <BiCategoryAlt className="h-6 w-6" /> },
-        { name: "Budgets", path: "/budgets", icon: <CircleDollarSign /> },
-        { name: "Settings", path: "/settings", icon: <Settings /> },
+        { name: "Transactions", path: "/dashboard/transactions", icon: <ArrowLeftRight /> },
+        { name: "Categories", path: "", icon: <BiCategoryAlt className="h-6 w-6" /> },
+        { name: "Budgets", path: "", icon: <CircleDollarSign /> },
+        { name: "Settings", path: "", icon: <Settings /> },
     ]
 
     return (

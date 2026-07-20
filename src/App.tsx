@@ -8,6 +8,8 @@ import RegistrationPage from './pages/RegistrationPage'
 import { Provider } from 'react-redux'
 import { store } from './store'
 import { Toaster } from "@/components/ui/sonner"
+import ErrorPage from './pages/ErrorPage'
+import TransactionsPage from './pages/TransactionsPage'
 
 function App() {
 
@@ -16,8 +18,9 @@ function App() {
       <>
         <Route path='/' element={<LoginPage />} />
         <Route path='/register' element={<RegistrationPage />} />
-        <Route path='/dashboard' element={<RootLayout />}>
+        <Route path='/dashboard' element={<RootLayout />} errorElement={<ErrorPage />}>
           <Route index element={<Home />} />
+          <Route path='/dashboard/transactions' element={<TransactionsPage />} />
         </Route>
       </>
     )
@@ -26,7 +29,7 @@ function App() {
   return (
     <Provider store={store}>
       <RouterProvider router={router} />
-      <Toaster />
+      <Toaster position='top-right' />
     </Provider>
   )
 }

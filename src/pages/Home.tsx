@@ -9,28 +9,27 @@ import { getCurrentAmountStatus } from "@/services/getRecordsService"
 import { getTransactionsList } from "@/services/transactionsService"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { toast } from "sonner"
 
 const Home = () => {
   const [allAmounts, setAllAmounts] = useState({});
   const id: any = sessionStorage.getItem("userId")
   const dispatch = useDispatch()
   const transactions = useSelector((state: any) => state.user.transactions)
-
+  const toggleRefresh: Boolean = useSelector((state: any) => state.user.toggleRefresh)
   useEffect(() => {
     (async () => {
       try {
         const response = await getTransactionsList(id)
-        console.log("transactions", response);
+        // console.log("transactions", response);
         if (response.success) {
-          toast.success(`${response.message}`)
-          dispatch(setTransactions(response.data.transactions))
+          // toast.success(`${response.message}`)
+          dispatch(setTransactions(response.data?.transactions || []))
         }
       } catch (error) {
         console.log("Error when getting transaction list", error)
       }
     })()
-  }, [])
+  }, [toggleRefresh])
 
   useEffect(() => {
     const getAllAmount = async () => {
@@ -40,7 +39,7 @@ const Home = () => {
           setAllAmounts(response.data)
         }
       } catch (error) {
-        console.log("Error while getting current amount status",error);
+        console.log("Error while getting current amount status", error);
       }
     }
     getAllAmount();

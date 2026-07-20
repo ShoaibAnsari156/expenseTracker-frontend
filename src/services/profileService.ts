@@ -1,7 +1,7 @@
 import { apiHandler } from "@/utils/fetchHelper";
 
-export const getUserProfile = async () => {
-    return await apiHandler("/api/v1/user/profile", {
+export const getUserProfile = async (userId:any) => {
+    return await apiHandler(`/api/v1/user/${userId}/profile`, {
         method: "GET",
     });
 }
