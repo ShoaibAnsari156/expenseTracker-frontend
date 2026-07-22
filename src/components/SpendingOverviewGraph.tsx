@@ -13,6 +13,7 @@ const SpendingOverviewGraph = () => {
     const [selectedMonth, setSelectedMonth] = React.useState<string>(new Date().toISOString().slice(0, 7));
     // const [doughnutdata, setDoughnutData] = React.useState({ categories: {} })
     const doughnutData = useSelector((state: any) => state.user.doughnutData)
+    const { Income, ...filteredData } = doughnutData
     // console.log("doughnutData", doughnutData);
     const userId: any = sessionStorage.getItem("userId")
     // console.log("userId", userId);
@@ -42,10 +43,10 @@ const SpendingOverviewGraph = () => {
         //     // Keeps the item only if its index matches the FIRST time it appears
         //     self.findIndex((t: any) => t.category === item.category) === index
         // ).map((data: any) => data.category),
-        labels: Object.keys(doughnutData) || [],
+        labels: Object.keys(filteredData) || [],
         datasets: [
             {
-                data: Object.values(doughnutData),
+                data: Object.values(filteredData),
                 backgroundColor: ['#FF6384', '#36A2EB', "#EAB308", "#3B82F6", "#22C55E", "#F97316"],
                 borderWidth: 0
             }

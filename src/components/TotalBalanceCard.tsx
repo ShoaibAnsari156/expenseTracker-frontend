@@ -1,46 +1,49 @@
-import { Ellipsis, Wallet } from 'lucide-react'
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Field, FieldGroup } from "@/components/ui/field"
-import { Button } from "@/components/ui/button"
-import { useState } from 'react'
-import { addBalance } from '@/services/addBalanceService'
-import { useSelector } from 'react-redux'
-import { toast } from 'sonner'
+// import { Ellipsis, HandCoins, Wallet } from 'lucide-react'
 
-const TotalBalanceCard = ({ currentBalance, setAllAmounts }: any) => {
-    const [balance, setBalance] = useState("");
-    const [open, setOpen] = useState(false);
-    const userId = useSelector((state: any) => state.user.userId);
+import { Wallet } from "lucide-react"
 
-    const handleSubmit = async () => {
-        try {
-            if (!balance) return alert("Balance cannot be empty");
-            const response = await addBalance(userId, parseFloat(balance));
-            // console.log("response", response);
-            setAllAmounts(response.data)
-            if (response.success) {
-                setOpen(false);
-                toast.success("Balance Added Successfully")
-            } else {
-                toast.error("Failed to add balance")
-            }
-        }
-        catch (error) {
-            toast.error("An error occurred while adding balance")
-            console.log("Error in adding Balance", error)
-        }
-    }
+// import {
+//     Dialog,
+//     DialogClose,
+//     DialogContent,
+//     DialogDescription,
+//     DialogFooter,
+//     DialogHeader,
+//     DialogTitle,
+//     DialogTrigger,
+// } from "@/components/ui/dialog"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
+// import { Field, FieldGroup } from "@/components/ui/field"
+// import { Button } from "@/components/ui/button"
+// import { useState } from 'react'
+// import { addBalance } from '@/services/addBalanceService'
+// import { useSelector } from 'react-redux'
+// import { toast } from 'sonner'
+
+const TotalBalanceCard = ({ currentBalance }: any) => {
+    // const [balance, setBalance] = useState("");
+    // const [open, setOpen] = useState(false);
+    // const userId = useSelector((state: any) => state.user.userId);
+
+    // const handleSubmit = async () => {
+    //     try {
+    //         if (!balance) return alert("Balance cannot be empty");
+    //         const response = await addBalance(userId, parseFloat(balance));
+    //         // console.log("response", response);
+    //         setAllAmounts(response.data)
+    //         if (response.success) {
+    //             setOpen(false);
+    //             toast.success("Balance Added Successfully")
+    //         } else {
+    //             toast.error("Failed to add balance")
+    //         }
+    //     }
+    //     catch (error) {
+    //         toast.error("An error occurred while adding balance")
+    //         console.log("Error in adding Balance", error)
+    //     }
+    // }
 
     return (
         <div
@@ -52,10 +55,10 @@ const TotalBalanceCard = ({ currentBalance, setAllAmounts }: any) => {
                 <p className="text-lg text-gray-500">Total Balance</p>
                 <p className="font-bold text-xl">₹ {currentBalance.totalBalance}</p>
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
+            {/* <HandCoins className="w-7 h-7 bg-blue-200 text-blue-800 p-1 rounded" /> */}
+            {/* <Dialog open={open} onOpenChange={setOpen}>
                 <form>
                     <DialogTrigger asChild>
-                        {/* <Button variant="outline">Open Dialog</Button> */}
                         <button >
                             <Ellipsis className="w-7 h-7 bg-blue-200 text-blue-800 p-1 rounded" />
                         </button>
@@ -81,7 +84,7 @@ const TotalBalanceCard = ({ currentBalance, setAllAmounts }: any) => {
                         </DialogFooter>
                     </DialogContent>
                 </form>
-            </Dialog>
+            </Dialog> */}
         </div>
     )
 }

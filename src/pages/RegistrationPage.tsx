@@ -40,6 +40,7 @@ const RegistrationPage = () => {
       });
 
       if(data.success){
+        sessionStorage.setItem("userId", data.user.userId)
         nagivate("/dashboard");
       }
       // console.log("Success:", data);
